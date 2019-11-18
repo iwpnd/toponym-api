@@ -15,7 +15,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ```
 git clone https://github.com/iwpnd/toponym-api.git
+```
 
+````
+docker build -t toponym-api .
+docker run -d --name toponym-api-container -p 80:80 toponym-api
 ```
 
 ## Running the tests
