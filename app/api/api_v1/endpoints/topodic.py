@@ -18,7 +18,7 @@ def topodic(language: StrictStr):
 
 
 @router.get("/topodict/{language}/{ending}", tags=["topodict"])
-def topodic_ending(language: StrictStr, ending: StrictStr):
+def topodic_ending(language: StrictStr , ending: StrictStr):
     td = topodict.Topodict(language=language.lower())
     td.load()
 
@@ -33,7 +33,8 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
         ending: td._dict[ending]
     }
 
-@router.get("/supported_languages", tags=["topodict", "supported languages"])
+
+@router.get("/languages", tags=["topodict", "supported languages"])
 def topodic_supported_languages():
 
     return settings.LANGUAGE_DICT
