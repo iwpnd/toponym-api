@@ -64,7 +64,8 @@ Outputs:
 
 2. execute `sam build --use-container` to build your aws-sam application in a container due to C dependencies in fastapi/starlette. Use `--debug` to see whats going on.
 
-3. execute `sam package --s3-bucket <YOUR S3 BUCKET> --output-template out.yml`. This will create cloudformation template that is executed in the next step.
+
+3. You can run it locally using `sam local start-api` or you can continue and package it up to be deployed in AWS `sam package --s3-bucket <YOUR S3 BUCKET> --output-template out.yml`. This will create cloudformation template that is executed in the next step.
 
 4. execute `sam deploy --template-file path/to/out.yml --stack-name <YOUR CLOUDFORMATION STACK NAME>`. This will deploy a stack with the toponym-api using the out.yml file to your AWS APIGateway.
 
