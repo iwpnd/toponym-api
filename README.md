@@ -26,13 +26,50 @@ docker run -d --name toponym-api-container -p 80:80 toponym-api
 
 soon
 
+## Deployment
+
+1. add a template.yml to the top directory containing the following and substituting \<values>:
+
 ```
-python -m pytest .
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    Toponym API
+Globals:
+    Function:
+        Timeout: 300
+Resources:
+    ToponymApiLambda:
+        Type: AWS::Serverless::Function
+        Properties:
+            FunctionName: toponym-api-lambda
+            CodeUri: toponym-api
+            Handler: app.main.handler
+            Runtime: python3.7
+            Role: arn:aws:iam::<AWS_ACCOUNT_ID>:role/<Your Lambda Execution Role>
+            Events:
+                CatchAll:
+                    Type: Api
+                    Properties:
+                        Path: /{proxy+}
+                        Method: ANY
+Outputs:
+    ToponymApi:
+      Description: "API Gateway endpoint URL for toponym-api-lambda"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+    ToponymApiLambda:
+      Description: "ToponymApiLambda ARN"
+      Value: !GetAtt ToponymApiLambda.Arn
 ```
 
-## Usage
+2. execute `sam build --use-container` to build your aws-sam application in a container due to C dependencies in fastapi/starlette. Use `--debug` to see whats going on.
 
-See `/docs` or `scripts/example.ipynb`
+
+3. You can run it locally using `sam local start-api` or you can continue and package it up to be deployed in AWS `sam package --s3-bucket <YOUR S3 BUCKET> --output-template out.yml`. This will create cloudformation template that is executed in the next step.
+
+4. execute `sam deploy --template-file path/to/out.yml --stack-name <YOUR CLOUDFORMATION STACK NAME>`. This will deploy a stack with the toponym-api using the out.yml file to your AWS APIGateway.
+
+5. go to your AWS console, hit APIGateway and check your API. Configurate it as you see fit, add a custom domain etcpp and deploy it in a stage.
 
 ## Authors
 

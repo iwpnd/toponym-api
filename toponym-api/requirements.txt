@@ -1,0 +1,3 @@
+fastapi
+mangum
+git+https://github.com/iwpnd/toponym.git
