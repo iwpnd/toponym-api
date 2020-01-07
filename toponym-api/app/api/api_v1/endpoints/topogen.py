@@ -11,15 +11,15 @@ from starlette.status import (
 )
 from pydantic import BaseModel, StrictStr, Schema
 from toponym import toponym, topodict
-from app.core.models.output import Outputtoponym
-from app.core.models.input import Inputword
+from app.core.models.output import OutputToponym
+from app.core.models.input import InputWord
 
 
 router = APIRouter()
 
 
-@router.post("/toponym/{language}", response_model=Outputtoponym, tags=["toponym"])
-def topogen_language(word: Inputword, language=StrictStr):
+@router.post("/toponym/{language}", response_model=OutputToponym, tags=["toponym"])
+def topogen_language(word: InputWord, language=StrictStr):
     try:
         td = topodict.Topodict(language=language.lower())
         td.load()

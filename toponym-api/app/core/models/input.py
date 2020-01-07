@@ -1,5 +1,5 @@
 from pydantic import BaseModel, StrictStr, Schema
 
 
-class Inputword(BaseModel):
+class InputWord(BaseModel):
     word: StrictStr = Schema(..., title="Word to create grammatical cases for")

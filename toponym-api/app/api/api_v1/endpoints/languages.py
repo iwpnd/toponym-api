@@ -1,7 +1,5 @@
 from fastapi import APIRouter
-from starlette.exceptions import HTTPException
-from pydantic import BaseModel, StrictStr, Schema
-from toponym import toponym, topodict, settings
+from toponym import settings
 
 router = APIRouter()
 

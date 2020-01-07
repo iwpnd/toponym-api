@@ -3,12 +3,12 @@ from fastapi.encoders import jsonable_encoder
 from starlette.exceptions import HTTPException
 from pydantic import BaseModel, StrictStr, Schema
 from toponym import toponym, topodict, settings
-from app.core.models.output import Outputtopodict
+from app.core.models.output import OutputTopodict, OutputTopodictRecipe
 
 router = APIRouter()
 
 
-@router.get("/topodict/{language}", response_model=Outputtopodict, tags=["topodict"])
+@router.get("/topodict/{language}", response_model=OutputTopodict, tags=["topodict"])
 def topodic_language(language: StrictStr):
     try:
         td = topodict.Topodict(language=language.lower())
@@ -21,7 +21,11 @@ def topodic_language(language: StrictStr):
         raise HTTPException(status_code=404, detail=f"Language: {language} not found.")
 
 
-@router.get("/topodict/{language}/{ending}", tags=["topodict"])
+@router.get(
+    "/topodict/{language}/{ending}",
+    response_model=OutputTopodictRecipe,
+    tags=["topodict", "recipe", "ending"],
+)
 def topodic_ending(language: StrictStr, ending: StrictStr):
     td = topodict.Topodict(language=language.lower())
     td.load()
@@ -32,4 +36,4 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
     if ending not in td._dict.keys():
         raise HTTPException(status_code=404, detail="Ending not found")
 
-    return {"language": language, ending: td._dict[ending]}
+    return {"language": language, "ending": ending, "recipe": td._dict[ending]}
