@@ -6,6 +6,7 @@ from toponym import toponym, topodict, settings
 
 router = APIRouter()
 
+
 @router.get("/topodict/{language}", tags=["topodict"])
 def topodic(language: StrictStr):
     td = topodict.Topodict(language=language.lower())
@@ -18,7 +19,7 @@ def topodic(language: StrictStr):
 
 
 @router.get("/topodict/{language}/{ending}", tags=["topodict"])
-def topodic_ending(language: StrictStr , ending: StrictStr):
+def topodic_ending(language: StrictStr, ending: StrictStr):
     td = topodict.Topodict(language=language.lower())
     td.load()
 
@@ -28,10 +29,7 @@ def topodic_ending(language: StrictStr , ending: StrictStr):
     if ending not in td._dict.keys():
         raise HTTPException(status_code=404, detail="Ending not found")
 
-    return {
-        "language": language,
-        ending: td._dict[ending]
-    }
+    return {"language": language, ending: td._dict[ending]}
 
 
 @router.get("/languages", tags=["topodict", "supported languages"])
