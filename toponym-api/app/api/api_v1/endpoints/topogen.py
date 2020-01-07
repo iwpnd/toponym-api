@@ -10,24 +10,18 @@ from starlette.status import (
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
 from pydantic import BaseModel, StrictStr, Schema
-
 from toponym import toponym, topodict
-
-
-class Input(BaseModel):
-    word: StrictStr = Schema(..., title="Word to create grammatical cases for")
-
-
-class Output(BaseModel):
-    word: StrictStr = Schema(..., title="Input word")
-    toponyms: dict = Schema(..., title="Grammatical cases for input word")
+from app.core.models.output import Outputtoponym
+from app.core.models.input import Inputword
 
 
 router = APIRouter()
 
 
-@router.post("/toponym/russian", response_model=Output, tags=["toponym", "russian"])
-def topogen_russian(word: Input):
+@router.post(
+    "/toponym/russian", response_model=Outputtoponym, tags=["toponym", "russian"]
+)
+def topogen_russian(word: Inputword):
     td = topodict.Topodict(language="russian")
     td.load()
 
@@ -38,8 +32,10 @@ def topogen_russian(word: Input):
     return {"word": word.word, "toponyms": toponyms}
 
 
-@router.post("/toponym/croatian", response_model=Output, tags=["toponym", "croatian"])
-def topogen_croatian(word: Input):
+@router.post(
+    "/toponym/croatian", response_model=Outputtoponym, tags=["toponym", "croatian"]
+)
+def topogen_croatian(word: Inputword):
     td = topodict.Topodict(language="croatian")
     td.load()
 
