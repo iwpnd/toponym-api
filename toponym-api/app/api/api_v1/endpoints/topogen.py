@@ -19,7 +19,7 @@ router = APIRouter()
 
 
 @router.post("/toponym/{language}", response_model=Outputtoponym, tags=["toponym"])
-def topogen_language(word: Inputword):
+def topogen_language(word: Inputword, language=StrictStr):
     try:
         td = topodict.Topodict(language=language.lower())
         td.load()
@@ -29,4 +29,4 @@ def topogen_language(word: Inputword):
 
         return {"word": word.word, "toponyms": toponyms}
     except KeyError as e:
-        raise HTTPException(status_code=404, detail=f"{language} not found")
+        raise HTTPException(status_code=404, detail=f"Language: {language} not found.")
