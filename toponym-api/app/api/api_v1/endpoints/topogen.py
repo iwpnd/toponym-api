@@ -10,37 +10,25 @@ from starlette.status import (
     HTTP_422_UNPROCESSABLE_ENTITY,
 )
 from pydantic import BaseModel, StrictStr, Schema
-
 from toponym import toponym, topodict
+from app.core.models.output import OutputToponym
+from app.core.models.input import InputWord
 
-class Input(BaseModel):
-    word: StrictStr = Schema(..., title="Word to create grammatical cases for")
-
-class Output(BaseModel):
-    word: StrictStr = Schema(..., title="Input word")
-    toponyms: dict = Schema(..., title="Grammatical cases for input word")
 
 router = APIRouter()
 
-@router.post("/toponym/russian", response_model=Output, tags=["toponym", "russian"])
-def topogen_russian(word: Input):
-    td = topodict.Topodict(language='russian')
-    td.load()
 
-    tn = toponym.Toponym(word.word, td)
-    tn.build()
-    toponyms = tn.topo
+@router.post("/toponym/", response_model=OutputToponym, tags=["toponym"])
+def topogen_language(inputword: InputWord):
+    try:
+        td = topodict.Topodict(language=inputword.language.lower())
+        td.load()
+        tn = toponym.Toponym(inputword.word, td)
+        tn.build()
+        toponyms = tn.topo
 
-    return {"word" : word.word, "toponyms": toponyms}
-
-
-@router.post("/toponym/croatian", response_model=Output, tags=["toponym", "croatian"])
-def topogen_croatian(word: Input):
-    td = topodict.Topodict(language='croatian')
-    td.load()
-
-    tn = toponym.Toponym(word.word, td)
-    tn.build()
-    toponyms = tn.topo
-
-    return {"word" : word.word, "toponyms": toponyms}
+        return {"word": inputword.word, "toponyms": toponyms}
+    except KeyError as e:
+        raise HTTPException(
+            status_code=404, detail=f"Language: {inputword.language} not found."
+        )

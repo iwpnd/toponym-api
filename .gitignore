@@ -5,3 +5,7 @@ __pycache__/
 /.vscode/
 /.pytest_cache/
 /.cache/
+toponym-api.code-workspace
+*.yml
+*.yaml
+/.aws-sam/
