@@ -8,10 +8,10 @@ install:
 - pip install aws-sam-cli
 script:
 - sam validate
-- sam package --template-file template.yml --s3-bucket travis-deployment-bucket --output-template packaged.yaml
+- sam package --template-file template.yml --s3-bucket travis-deployment-bucket --output-template-file packaged.yaml --region eu-west-1
 deploy:
   provider: script
-  script: sam deploy --template-file packaged.yaml --stack-name toponymapi
+  script: sam deploy --template-file packaged.yaml --stack-name toponymapi --region eu-west-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
   skip_cleanup: true
   on:
     branch: master
