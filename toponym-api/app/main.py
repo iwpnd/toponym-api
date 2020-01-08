@@ -16,4 +16,4 @@ app.add_middleware(
 
 app.include_router(api_router, prefix=API_V1_STR)
 
-handler = Mangum(app, spec_version=2)
+handler = Mangum(app)
