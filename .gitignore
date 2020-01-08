@@ -6,6 +6,5 @@ __pycache__/
 /.pytest_cache/
 /.cache/
 toponym-api.code-workspace
-*.yml
-*.yaml
+packaged.yaml
 /.aws-sam/
