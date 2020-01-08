@@ -18,15 +18,17 @@ from app.core.models.input import InputWord
 router = APIRouter()
 
 
-@router.post("/toponym/{language}", response_model=OutputToponym, tags=["toponym"])
-def topogen_language(word: InputWord, language=StrictStr):
+@router.post("/toponym/", response_model=OutputToponym, tags=["toponym"])
+def topogen_language(inputword: InputWord):
     try:
-        td = topodict.Topodict(language=language.lower())
+        td = topodict.Topodict(language=inputword.language.lower())
         td.load()
-        tn = toponym.Toponym(word.word, td)
+        tn = toponym.Toponym(inputword.word, td)
         tn.build()
         toponyms = tn.topo
 
-        return {"word": word.word, "toponyms": toponyms}
+        return {"word": inputword.word, "toponyms": toponyms}
     except KeyError as e:
-        raise HTTPException(status_code=404, detail=f"Language: {language} not found.")
+        raise HTTPException(
+            status_code=404, detail=f"Language: {inputword.language} not found."
+        )

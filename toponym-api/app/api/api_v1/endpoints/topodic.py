@@ -13,7 +13,9 @@ from app.core.models.input import InputWord
 router = APIRouter()
 
 
-@router.get("/topodict/{language}", response_model=OutputTopodict, tags=["topodict"])
+@router.get(
+    "/topodict/{language}", response_model=OutputTopodict, tags=["topodictionary"]
+)
 def topodic_language(language: StrictStr):
     try:
         td = topodict.Topodict(language=language.lower())
@@ -29,7 +31,7 @@ def topodic_language(language: StrictStr):
 @router.get(
     "/topodict/{language}/{ending}",
     response_model=OutputTopodictRecipe,
-    tags=["topodict", "recipe", "ending"],
+    tags=["topodictionary"],
 )
 def topodic_ending(language: StrictStr, ending: StrictStr):
     td = topodict.Topodict(language=language.lower())
@@ -45,22 +47,22 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
 
 
 @router.post(
-    "/topodict/{language}/recipe",
+    "/topodict/recipe",
     response_model=OutputTopodictLongestEnding,
-    tags=["topodictionary", "recipe", "longest ending"],
+    tags=["topodictionary"],
 )
-def topodict_recipe_for_input(word: InputWord, language: StrictStr):
+def topodict_recipe_for_input(inputword: InputWord):
     try:
-        td = topodict.Topodict(language=language.lower())
+        td = topodict.Topodict(language=inputword.language.lower())
         td.load()
 
-        tn = toponym.Toponym(word.word, td)
+        tn = toponym.Toponym(inputword.word, td)
 
         return {
-            "language": language,
-            "word": word.word,
-            "longest_ending": tn._get_longest_word_ending(word.word),
-            "recipe": td._dict[tn._get_longest_word_ending(word.word)],
+            "language": inputword.language,
+            "word": inputword.word,
+            "longest_ending": tn._get_longest_word_ending(inputword.word),
+            "recipe": td._dict[tn._get_longest_word_ending(inputword.word)],
         }
 
     except KeyError:
