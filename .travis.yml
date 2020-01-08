@@ -12,7 +12,7 @@ script:
 - sam package --s3-bucket travis-deployment-bucket --output-template-file out.yml --region eu-west-1
 deploy:
   provider: script
-  script: sam deploy --guided --template-file out.yml --stack-name toponymapi --region eu-west-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
+  script: sam deploy --template-file out.yml --stack-name toponymapi --region eu-west-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
   skip_cleanup: true
   on:
     branch: master
