@@ -1,5 +1,5 @@
 fastapi
 mangum
 pytest
-requirements
+requests
 git+https://github.com/iwpnd/toponym.git
