@@ -1,10 +1,10 @@
 # Toponym-API
 
-API for [Toponym](https://github.com/iwpnd/toponym) built with the amazing [FastAPI](https://fastapi.tiangolo.com). 
+API for [Toponym](https://github.com/iwpnd/toponym) built with the amazing [FastAPI](https://fastapi.tiangolo.com).
 
-# Description 
+# Description
 
-In slavic languages a word can change, depending on how and where it is used within a sentence. The city Moscow (`Москва`) changes to `Москве` when used prepositional. 
+In slavic languages a word can change, depending on how and where it is used within a sentence. The city Moscow (`Москва`) changes to `Москве` when used prepositional.
 
 
 ## Getting Started
@@ -18,8 +18,8 @@ git clone https://github.com/iwpnd/toponym-api.git
 ```
 
 ```
-docker build -t toponym-api .
-docker run -d --name toponym-api-container -p 80:80 toponym-api
+docker build -t toponym_api .
+docker run -d --name toponym-api-container -p 80:80 toponym_api
 ```
 
 ## Running the tests
@@ -43,7 +43,7 @@ Resources:
         Type: AWS::Serverless::Function
         Properties:
             FunctionName: toponym-api-lambda
-            CodeUri: toponym-api
+            CodeUri: toponym_api
             Handler: app.main.handler
             Runtime: python3.7
             Role: arn:aws:iam::<AWS_ACCOUNT_ID>:role/<Your Lambda Execution Role>
@@ -86,4 +86,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone whose code was used
 * Inspiration
 * etc
-

@@ -1,3 +1,5 @@
 fastapi
 mangum
+pytest
+requests
 git+https://github.com/iwpnd/toponym.git

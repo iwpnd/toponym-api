@@ -16,4 +16,10 @@ app.add_middleware(
 
 app.include_router(api_router, prefix=API_V1_STR)
 
+
+@app.get("/ping")
+def pong():
+    return {"ping": "pong!"}
+
+
 handler = Mangum(app)
