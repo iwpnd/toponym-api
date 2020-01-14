@@ -63,8 +63,12 @@ def topodict_recipe_for_input(inputword: InputWord):
             "language": inputword.language,
             "word": inputword.word,
             "longest_ending": tn._get_longest_word_ending(inputword.word),
-            "recipe": td._dict[tn._get_longest_word_ending(inputword.word)],
+            "recipe": td._dict["_default"]
+            if not tn._get_longest_word_ending(inputword.word)
+            else td._dict[tn._get_longest_word_ending(inputword.word)],
         }
 
     except KeyError:
-        raise HTTPException(status_code=404, detail="Language not found")
+        raise HTTPException(
+            status_code=404, detail=f"Language: {inputword.language} not found"
+        )
