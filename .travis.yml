@@ -7,13 +7,14 @@ branches:
 install:
 - pip install awscli
 - pip install aws-sam-cli
-- pip install poetry
-- pip install pytest
-- poetry install
 jobs:
   include:
     - stage: test
-      script: pytest . -v -s
+      script:
+        - pip install poetry
+        - pip install pytest
+        - poetry install
+        - pytest . -v -s
     - stage: deploy
       deploy:
         script:
