@@ -22,4 +22,32 @@ def test_topodict_language_route():
     for language in available_languages:
         response = client.get(API_V1_STR + f"/topodict/{language}")
         assert response.status_code == 200
-        assert is_json(response.status_code)
+
+
+def test_topodict_language_route_valid_json():
+    for language in available_languages:
+        response = client.get(API_V1_STR + f"/topodict/{language}")
+        assert is_json(response.content)
+
+
+def test_topodict_language_route_default_in_json():
+    for language in available_languages:
+        response = client.get(API_V1_STR + f"/topodict/{language}")
+        assert "_default" in response.json()["topodictionary"]
+
+
+def test_topodict_language_route_language_fails():
+    response = client.get(API_V1_STR + f"/topodict/test")
+    assert response.status_code == 404
+
+
+def test_language_ending_route_status():
+    for language in available_languages:
+        response = client.get(API_V1_STR + f"/topodict/{language}/_default")
+        assert response.status_code == 200
+
+
+def test_language_ending_route_response_keys():
+    for language in available_languages:
+        response = client.get(API_V1_STR + f"/topodict/{language}/_default")
+        assert all([k in response.json() for k in response.json().keys()])
