@@ -56,3 +56,9 @@ def test_language_ending_route_response_keys():
 def test_language_ending_route_language_404():
     response = client.get(API_V1_STR + f"/topodict/test/_default")
     assert response.status_code == 404
+
+
+def test_language_ending_route_ending_404():
+    response = client.get(API_V1_STR + f"/topodict/polish/_test")
+    assert response.status_code == 404
+    assert "Ending not found" in response.json()["detail"]
