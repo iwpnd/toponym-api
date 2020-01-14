@@ -34,16 +34,17 @@ def topodic_language(language: StrictStr):
     tags=["topodictionary"],
 )
 def topodic_ending(language: StrictStr, ending: StrictStr):
-    td = topodict.Topodict(language=language.lower())
-    td.load()
+    try:
+        td = topodict.Topodict(language=language.lower())
+        td.load()
 
-    if language.lower() not in settings.LANGUAGE_DICT:
-        raise HTTPException(status_code=404, detail="Language not found")
+        if ending not in td._dict.keys():
+            raise HTTPException(status_code=404, detail="Ending not found")
 
-    if ending not in td._dict.keys():
-        raise HTTPException(status_code=404, detail="Ending not found")
+        return {"language": language, "ending": ending, "recipe": td._dict[ending]}
 
-    return {"language": language, "ending": ending, "recipe": td._dict[ending]}
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Language: {language} not found.")
 
 
 @router.post(

@@ -51,3 +51,8 @@ def test_language_ending_route_response_keys():
     for language in available_languages:
         response = client.get(API_V1_STR + f"/topodict/{language}/_default")
         assert all([k in response.json() for k in response.json().keys()])
+
+
+def test_language_ending_route_language_404():
+    response = client.get(API_V1_STR + f"/topodict/test/_default")
+    assert response.status_code == 404
