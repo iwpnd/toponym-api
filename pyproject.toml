@@ -23,6 +23,7 @@ fastapi = "^0.42.0"
 
 # Git dependencies
 toponym = { git = "https://github.com/iwpnd/toponym.git", branch = "master" }
+mangum = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
