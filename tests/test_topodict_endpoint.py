@@ -69,6 +69,7 @@ def test_language_ending_route_ending_404():
 
 
 def test_recipe_route_status():
-    payload = {"language": "polish", "word": "test"}
-    response = client.post(API_V1_STR + f"/topodict/recipe", json=payload)
-    assert response.status_code == 200
+    for language in available_languages:
+        payload = {"language": language, "word": "test"}
+        response = client.post(API_V1_STR + f"/topodict/recipe", json=payload)
+        assert response.status_code == 200
