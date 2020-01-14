@@ -37,8 +37,10 @@ def test_topodict_language_route_default_in_json():
 
 
 def test_topodict_language_route_language_fails():
-    response = client.get(API_V1_STR + f"/topodict/test")
+    language = "test"
+    response = client.get(API_V1_STR + f"/topodict/{language}")
     assert response.status_code == 404
+    assert f"Language: {language} not found" in response.json()["detail"]
 
 
 def test_language_ending_route_status():
@@ -54,8 +56,10 @@ def test_language_ending_route_response_keys():
 
 
 def test_language_ending_route_language_404():
-    response = client.get(API_V1_STR + f"/topodict/test/_default")
+    language = "test"
+    response = client.get(API_V1_STR + f"/topodict/{language}/_default")
     assert response.status_code == 404
+    assert f"Language: {language} not found" in response.json()["detail"]
 
 
 def test_language_ending_route_ending_404():
