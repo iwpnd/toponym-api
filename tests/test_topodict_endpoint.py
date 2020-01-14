@@ -52,7 +52,7 @@ def test_language_ending_route_status():
 def test_language_ending_route_response_keys():
     for language in available_languages:
         response = client.get(API_V1_STR + f"/topodict/{language}/_default")
-        assert all([k in response.json() for k in response.json().keys()])
+        assert all([k in response.json() for k in ["language", "ending", "recipe"]])
 
 
 def test_language_ending_route_language_404():
@@ -73,3 +73,15 @@ def test_recipe_route_status():
         payload = {"language": language, "word": "test"}
         response = client.post(API_V1_STR + f"/topodict/recipe", json=payload)
         assert response.status_code == 200
+
+
+def test_recipe_route_response():
+    for language in available_languages:
+        payload = {"language": language, "word": "test"}
+        response = client.post(API_V1_STR + f"/topodict/recipe", json=payload)
+        assert all(
+            [
+                k in response.json()
+                for k in ["language", "word", "longest_ending", "recipe"]
+            ]
+        )
