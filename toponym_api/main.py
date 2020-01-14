@@ -22,4 +22,4 @@ def pong():
     return {"ping": "pong!"}
 
 
-# handler = Mangum(app)
+handler = Mangum(app)

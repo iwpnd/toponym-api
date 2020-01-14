@@ -6,16 +6,27 @@ branches:
 install:
 - pip install awscli
 - pip install aws-sam-cli
-script:
-- sam validate
-- sam build --debug
-- sam package --s3-bucket travis-deployment-bucket --output-template-file out.yml --region eu-west-1
-deploy:
-  provider: script
-  script: sam deploy --template-file out.yml --stack-name toponymapi --region eu-west-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
-  skip_cleanup: true
-  on:
-    branch: master
+- pip install poetry
+- pip install pytest
+- poetry install
+jobs:
+  include:
+    - stage: test
+      script: pytest . -v -s
+    - stage: build
+      on:
+        branch: master
+      script:
+        - sam validate
+        - sam build --debug
+        - sam package --s3-bucket travis-deployment-bucket --output-template-file out.yml --region eu-west-1
+    - stage: deploy
+      deploy:
+        provider: script
+        script: sam deploy --template-file out.yml --stack-name toponymapi --region eu-west-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
+        skip_cleanup: true
+        on:
+          branch: master
 notifications:
   email:
     on_failure: always

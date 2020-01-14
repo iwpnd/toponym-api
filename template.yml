@@ -10,7 +10,7 @@ Resources:
         Type: AWS::Serverless::Function
         Properties:
             FunctionName: toponym-api-lambda
-            CodeUri: .
+            CodeUri: ./
             Handler: toponym_api.main.handler
             Runtime: python3.7
             Role: !Sub arn:aws:iam::${AWS::AccountId}:role/ToponymApiRole
