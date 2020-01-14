@@ -11,8 +11,8 @@ from starlette.status import (
 )
 from pydantic import BaseModel, StrictStr, Schema
 from toponym import toponym, topodict
-from app.core.models.output import OutputToponym
-from app.core.models.input import InputWord
+from toponym_api.core.models.output import OutputToponym
+from toponym_api.core.models.input import InputWord
 
 
 router = APIRouter()
