@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "toponymapi"
+name = "toponym_api"
 version = "0.1.0"
 description = "API to interfact toponym"
 
