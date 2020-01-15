@@ -30,5 +30,6 @@ def topogen_language(inputword: InputWord):
         return {"word": inputword.word, "toponyms": toponyms}
     except KeyError as e:
         raise HTTPException(
-            status_code=404, detail=f"Language: {inputword.language} not found."
+            status_code=HTTP_404_NOT_FOUND,
+            detail=f"Language: {inputword.language} not found.",
         )
