@@ -12,7 +12,7 @@ jobs:
         - pip install poetry
         - pip install pytest
         - poetry install
-        - pytest . -v -s
+        - pytest . -v
     - stage: deploy
       script:
         - sam validate
