@@ -26,4 +26,4 @@ def pong():
     return {"ping": "pong!"}
 
 
-handler = Mangum(app)
+handler = Mangum(app, api_gateway_base_path="/Prod")

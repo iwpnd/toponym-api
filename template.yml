@@ -18,12 +18,12 @@ Resources:
                 CatchAll:
                     Type: Api
                     Properties:
-                        Path: /{proxy+}
+                        Path: /{proxy+}/
                         Method: ANY
 Outputs:
     ToponymApi:
       Description: "API Gateway endpoint URL for toponym-api-lambda"
-      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/"
     ToponymApiLambda:
       Description: "ToponymApiLambda ARN"
       Value: !GetAtt ToponymApiLambda.Arn
