@@ -32,3 +32,11 @@ def test_topogen_route_valid_json():
     payload = {"language": language, "word": "test"}
     response = client.post(API_V1_STR + "/toponym/", json=payload)
     assert is_json(response.content)
+
+
+def test_topogen_route_fails_404():
+    language = "failsnail"
+    payload = {"language": language, "word": "test"}
+    response = client.post(API_V1_STR + "/toponym/", json=payload)
+    assert response.status_code == HTTP_404_NOT_FOUND
+    assert f"Language: {language} not found" in response.json()["detail"]
