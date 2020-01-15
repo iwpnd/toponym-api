@@ -46,4 +46,9 @@ def test_topogen_route_output_keys():
     for language in available_languages:
         payload = {"language": language, "word": "test"}
         response = client.post(API_V1_STR + "/toponym/", json=payload)
-        assert all([k in response.json() for k in ["word", "toponyms"]])
+        assert all(
+            [
+                k in response.json()
+                for k in ["word", "toponyms", "longest_ending", "language"]
+            ]
+        )

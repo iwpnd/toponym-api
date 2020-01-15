@@ -27,7 +27,12 @@ def topogen_language(inputword: InputWord):
         tn.build()
         toponyms = tn.topo
 
-        return {"word": inputword.word, "toponyms": toponyms}
+        return {
+            "word": inputword.word,
+            "language": inputword.language,
+            "longest_ending": tn._get_longest_word_ending(inputword.word),
+            "toponyms": toponyms,
+        }
     except KeyError as e:
         raise HTTPException(
             status_code=HTTP_404_NOT_FOUND,

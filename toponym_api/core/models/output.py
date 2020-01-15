@@ -3,6 +3,10 @@ from pydantic import BaseModel, StrictStr, Schema
 
 class OutputToponym(BaseModel):
     word: StrictStr = Schema(..., title="input word")
+    language: StrictStr = Schema(..., title="input language")
+    longest_ending: StrictStr = Schema(
+        ..., title="longest available ending for input word"
+    )
     toponyms: dict = Schema(..., title="grammatical cases for input word")
 
 
