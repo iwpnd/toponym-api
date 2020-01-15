@@ -5,6 +5,8 @@ Description: >
 Globals:
     Function:
         Timeout: 300
+        MemorySize: 128
+        Description: fastapi application around toponym
 Resources:
     ToponymApiLambda:
         Type: AWS::Serverless::Function
@@ -18,7 +20,7 @@ Resources:
                 CatchAll:
                     Type: Api
                     Properties:
-                        Path: /{proxy+}/
+                        Path: /{proxy+}
                         Method: ANY
 Outputs:
     ToponymApi:
