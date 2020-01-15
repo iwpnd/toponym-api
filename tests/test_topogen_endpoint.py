@@ -25,3 +25,10 @@ def test_topogen_route_status():
     payload = {"language": language, "word": "test"}
     response = client.post(API_V1_STR + "/toponym/", json=payload)
     assert response.status_code == HTTP_200_OK
+
+
+def test_topogen_route_valid_json():
+    language = random.choice(available_languages)
+    payload = {"language": language, "word": "test"}
+    response = client.post(API_V1_STR + "/toponym/", json=payload)
+    assert is_json(response.content)
