@@ -28,3 +28,8 @@ def test_language_route_status():
 def test_language_route_valid_json():
     response = client.get(API_V1_STR + f"/languages")
     assert is_json(response.content)
+
+
+def test_language_route_languages():
+    response = client.get(API_V1_STR + f"/languages")
+    assert all([language in response.json() for language in available_languages])
