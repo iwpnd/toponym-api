@@ -4,7 +4,11 @@ from toponym_api.api.api_v1.api import router as api_router
 from toponym_api.core.config import ALLOWED_HOSTS, API_V1_STR, PROJECT_NAME
 from mangum import Mangum
 
-app = FastAPI(title=PROJECT_NAME, openapi_prefix="/Prod")
+app = FastAPI(
+    title=PROJECT_NAME,
+    # if not custom domain
+    # openapi_prefix="/Prod"
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,4 +26,4 @@ def pong():
     return {"ping": "pong!"}
 
 
-handler = Mangum(app, api_gateway_base_path="/Prod")
+handler = Mangum(app)
