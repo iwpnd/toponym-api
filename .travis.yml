@@ -2,8 +2,6 @@ language: python
 cache: pip
 python:
 - '3.7'
-branches:
-  only: master
 install:
 - pip install awscli
 - pip install aws-sam-cli
@@ -14,7 +12,7 @@ jobs:
         - pip install poetry
         - pip install pytest
         - poetry install
-        - pytest . -v -s
+        - pytest . -v
     - stage: deploy
       script:
         - sam validate
@@ -22,8 +20,7 @@ jobs:
         - sam package --s3-bucket travis-deployment-bucket --output-template-file out.yml --region eu-west-1
         - sam deploy --template-file out.yml --stack-name toponymapi --region eu-west-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
       skip_cleanup: true
-      on:
-        branch: master
+      if: branch = master
 notifications:
   email:
     on_failure: always
