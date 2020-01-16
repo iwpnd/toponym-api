@@ -17,6 +17,17 @@ router = APIRouter()
     "/topodict/{language}", response_model=OutputTopodict, tags=["topodictionary"]
 )
 def topodic_language(language: StrictStr):
+    """
+    Show topodictionary for language.
+
+    This will show the topodictionary for the input language to the user.
+    A topodictionary is a collection of recipe on how to construct
+    grammatical cases for an input word.
+
+    And this path operation will:
+    * return the entire collection of recipes in a topodictionary
+
+    """
     try:
         td = topodict.Topodict(language=language.lower())
         td.load()
@@ -34,6 +45,40 @@ def topodic_language(language: StrictStr):
     tags=["topodictionary"],
 )
 def topodic_ending(language: StrictStr, ending: StrictStr):
+    """
+    Show the recipe for a word-ending.
+
+    Given an input language and an ending, present the user with
+    the recipe that will be used to build grammatical cases
+    for that specific ending.
+
+    e.g.
+        "д": {
+        "nominative": [
+            [""],0
+            ],
+        "genitive": [
+            ["да","дя"],1
+        ],
+        "dative": [
+            ["дю","ду"],1
+        ],
+        "accusative": [
+            ["да","дя"],
+            1
+        ],
+        "instrumental": [
+            ["дем","дом"],1
+        ],
+        "prepositional": [
+            ["де"],1
+        ]
+    }
+
+    And this path operation will:
+    * returns a single recipe for the ending specific in the path
+
+    """
     try:
         td = topodict.Topodict(language=language.lower())
         td.load()
@@ -53,6 +98,16 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
     tags=["topodictionary"],
 )
 def topodict_recipe_for_input(inputword: InputWord):
+    """
+    Show the recipe that will be used for the input word.
+
+    This will show the recipe that would be used for the
+    creation of grammatical cases for an input word.
+
+    And this path operation will:
+    * return the recipe that would be used for the input word
+    * return the longest ending that could be found within the topodictionary
+    """
     try:
         td = topodict.Topodict(language=inputword.language.lower())
         td.load()

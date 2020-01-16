@@ -20,6 +20,14 @@ router = APIRouter()
 
 @router.post("/toponym/", response_model=OutputToponym, tags=["toponym"])
 def topogen_language(inputword: InputWord):
+    """
+    Create toponyms for input word and language.
+
+    This will create the toponyms for the input word and the input language.
+
+    And this path operation will:
+    * return toponyms
+    """
     try:
         td = topodict.Topodict(language=inputword.language.lower())
         td.load()
