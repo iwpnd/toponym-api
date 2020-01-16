@@ -45,6 +45,40 @@ def topodic_language(language: StrictStr):
     tags=["topodictionary"],
 )
 def topodic_ending(language: StrictStr, ending: StrictStr):
+    """
+    Show the recipe for a word-ending.
+
+    Given an input language and an ending, present the user with
+    the recipe that will be used to build grammatical cases
+    for that specific ending.
+
+    e.g.
+        "д": {
+        "nominative": [
+            [""],0
+            ],
+        "genitive": [
+            ["да","дя"],1
+        ],
+        "dative": [
+            ["дю","ду"],1
+        ],
+        "accusative": [
+            ["да","дя"],
+            1
+        ],
+        "instrumental": [
+            ["дем","дом"],1
+        ],
+        "prepositional": [
+            ["де"],1
+        ]
+    }
+
+    And this path operation will:
+    * returns a single recipe for the ending specific in the path
+
+    """
     try:
         td = topodict.Topodict(language=language.lower())
         td.load()
