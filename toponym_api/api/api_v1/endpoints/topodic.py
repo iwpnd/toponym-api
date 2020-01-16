@@ -98,6 +98,16 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
     tags=["topodictionary"],
 )
 def topodict_recipe_for_input(inputword: InputWord):
+    """
+    Show the recipe that will be used for the input word.
+
+    This will show the recipe that would be used for the
+    creation of grammatical cases for an input word.
+
+    And this path operation will:
+    * return the recipe that would be used for the input word
+    * return the longest ending that could be found within the topodictionary
+    """
     try:
         td = topodict.Topodict(language=inputword.language.lower())
         td.load()
