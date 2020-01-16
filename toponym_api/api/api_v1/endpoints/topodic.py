@@ -17,6 +17,17 @@ router = APIRouter()
     "/topodict/{language}", response_model=OutputTopodict, tags=["topodictionary"]
 )
 def topodic_language(language: StrictStr):
+    """
+    Show topodictionary for language.
+
+    This will show the topodictionary for the input language to the user.
+    A topodictionary is a collection of recipe on how to construct
+    grammatical cases for an input word.
+
+    And this path operation will:
+    * return the entire collection of recipes in a topodictionary
+
+    """
     try:
         td = topodict.Topodict(language=language.lower())
         td.load()
