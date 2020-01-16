@@ -23,6 +23,15 @@ app.include_router(api_router, prefix=API_V1_STR)
 
 @app.get("/ping")
 def pong():
+    """
+    Sanity check.
+
+    This will let the user know that the service is operational.
+
+    And this path operation will:
+    * show a lifesign
+
+    """
     return {"ping": "pong!"}
 
 
