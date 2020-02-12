@@ -32,11 +32,11 @@ def test_recipes_language_route_default_in_json(test_app, language):
     assert "_default" in response.json()["recipes"]
 
 
-# def test_topodict_language_route_language_fails():
-#     language = "test"
-#     response = client.get(API_V1_STR + f"/topodict/{language}")
-#     assert response.status_code == 404
-#     assert f"Language: {language} not found" in response.json()["detail"]
+def test_topodict_language_route_language_fails(test_app):
+    language = "test"
+    response = test_app.get(API_V1_STR + f"/recipes/{language}")
+    assert response.status_code == 404
+    assert f"Language: {language} not found" in response.json()["detail"]
 
 
 # def test_language_ending_route_status():

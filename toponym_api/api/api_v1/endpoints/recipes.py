@@ -4,6 +4,7 @@ from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK
 from starlette.status import HTTP_404_NOT_FOUND
 from toponym.recipes import Recipes
+from toponym.utils import LanguageNotFoundError
 
 from toponym_api.core.models.output import OutputRecipes
 
@@ -33,7 +34,7 @@ def recipes_language(language: StrictStr):
         recipes.load()
 
         return {"language": language, "recipes": recipes._dict}
-    except KeyError:
+    except LanguageNotFoundError:
         raise HTTPException(
             status_code=HTTP_404_NOT_FOUND, detail=f"Language: {language} not found."
         )
