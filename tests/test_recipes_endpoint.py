@@ -20,10 +20,10 @@ def test_recipes_language_route(test_app, language):
     assert response.status_code == 200
 
 
-# def test_topodict_language_route_valid_json():
-#     for language in available_languages:
-#         response = client.get(API_V1_STR + f"/topodict/{language}")
-#         assert is_json(response.content)
+@pytest.mark.parametrize("language", [language for language in settings.LANGUAGE_DICT])
+def test_recipes_language_route_valid_json(test_app, language):
+    response = test_app.get(API_V1_STR + f"/recipes/{language}")
+    assert is_json(response.content)
 
 
 # def test_topodict_language_route_default_in_json():
