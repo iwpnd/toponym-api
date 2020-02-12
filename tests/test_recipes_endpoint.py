@@ -47,17 +47,17 @@ def test_language_ending_route_status(test_app, language):
     assert response.status_code == HTTP_200_OK
 
 
-# def test_language_ending_route_response_keys():
-#     for language in available_languages:
-#         response = client.get(API_V1_STR + f"/topodict/{language}/_default")
-#         assert all([k in response.json() for k in ["language", "ending", "recipe"]])
+@pytest.mark.parametrize("language", [language for language in settings.LANGUAGE_DICT])
+def test_language_ending_route_response_keys(test_app, language):
+    response = test_app.get(API_V1_STR + f"/recipes/{language}/_default")
+    assert all([k in response.json() for k in ["language", "ending", "recipe"]])
 
 
-# def test_language_ending_route_language_404():
-#     language = "test"
-#     response = client.get(API_V1_STR + f"/topodict/{language}/_default")
-#     assert response.status_code == 404
-#     assert f"Language: {language} not found" in response.json()["detail"]
+def test_language_ending_route_language_404(test_app):
+    language = "fails"
+    response = test_app.get(API_V1_STR + f"/recipes/{language}/_default")
+    assert response.status_code == 404
+    assert f"Language: {language} not found" in response.json()["detail"]
 
 
 # def test_language_ending_route_ending_404():
