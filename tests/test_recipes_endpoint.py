@@ -16,7 +16,7 @@ def is_json(myjson):
 
 @pytest.mark.parametrize("language", [language for language in settings.LANGUAGE_DICT])
 def test_recipes_language_route(test_app, language):
-    response = test_app.get(API_V1_STR + f"/topodict/{language}")
+    response = test_app.get(API_V1_STR + f"/recipes/{language}")
     assert response.status_code == 200
 
 
