@@ -32,7 +32,7 @@ def recipes_language(language: StrictStr):
         recipes = Recipes(language=language.lower())
         recipes.load()
 
-        return {"language": language, "recipes": recipes.__dict__}
+        return {"language": language, "recipes": recipes._dict}
     except KeyError:
         raise HTTPException(
             status_code=HTTP_404_NOT_FOUND, detail=f"Language: {language} not found."

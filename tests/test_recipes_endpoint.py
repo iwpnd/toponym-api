@@ -26,10 +26,10 @@ def test_recipes_language_route_valid_json(test_app, language):
     assert is_json(response.content)
 
 
-# def test_topodict_language_route_default_in_json():
-#     for language in available_languages:
-#         response = client.get(API_V1_STR + f"/topodict/{language}")
-#         assert "_default" in response.json()["topodictionary"]
+@pytest.mark.parametrize("language", [language for language in settings.LANGUAGE_DICT])
+def test_recipes_language_route_default_in_json(test_app, language):
+    response = test_app.get(API_V1_STR + f"/recipes/{language}")
+    assert "_default" in response.json()["recipes"]
 
 
 # def test_topodict_language_route_language_fails():
