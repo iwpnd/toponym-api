@@ -1,10 +1,6 @@
-from starlette.testclient import TestClient
-
-from toponym_api.main import app
-
-client = TestClient(app)
+from starlette.status import HTTP_200_OK
 
 
-def test_ping():
-    response = client.get("/ping")
-    assert response.status_code == 200
+def test_ping(test_app):
+    response = test_app.get("/ping")
+    assert response.status_code == HTTP_200_OK
