@@ -1,4 +1,6 @@
-from pydantic import BaseModel, StrictStr, Schema
+from pydantic import BaseModel
+from pydantic import Schema
+from pydantic import StrictStr
 
 
 class OutputToponym(BaseModel):
@@ -10,20 +12,18 @@ class OutputToponym(BaseModel):
     toponyms: dict = Schema(..., title="grammatical cases for input word")
 
 
-class OutputTopodict(BaseModel):
+class OutputRecipes(BaseModel):
     language: StrictStr = Schema(..., title="input language")
-    topodictionary: dict = Schema(
-        ..., title="topodictionary recipe for selected language"
-    )
+    recipes: dict = Schema(..., title="Recipes for selected language")
 
 
-class OutputTopodictRecipe(BaseModel):
+class OutputRecipe(BaseModel):
     language: StrictStr = Schema(..., title="input language")
     ending: StrictStr = Schema(..., title="ending for input word")
-    recipe: dict = Schema(..., title=f"topodictionary recipe for {ending}")
+    recipe: dict = Schema(..., title=f"recipe for {ending}")
 
 
-class OutputTopodictLongestEnding(BaseModel):
+class OutputRecipeLongestEnding(BaseModel):
     language: StrictStr = Schema(..., title="input language")
     word: StrictStr = Schema(..., title="input word")
     longest_ending: StrictStr = Schema(
