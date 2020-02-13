@@ -4,19 +4,20 @@ from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK
 from starlette.status import HTTP_404_NOT_FOUND
 from toponym.recipes import Recipes
+from toponym.toponym import get_longest_word_ending
 from toponym.utils import LanguageNotFoundError
 
+from toponym_api.core.models.input import InputWord
 from toponym_api.core.models.output import OutputRecipe
+from toponym_api.core.models.output import OutputRecipeLongestEnding
 from toponym_api.core.models.output import OutputRecipes
+
 
 router = APIRouter()
 
 
 @router.get(
-    "/recipes/{language}",
-    response_model=OutputRecipes,
-    tags=["recipes"],
-    status_code=HTTP_200_OK,
+    "/recipes/{language}", response_model=OutputRecipes, status_code=HTTP_200_OK
 )
 def recipes_language(language: StrictStr):
     """
@@ -41,9 +42,7 @@ def recipes_language(language: StrictStr):
         )
 
 
-@router.get(
-    "/recipes/{language}/{ending}", response_model=OutputRecipe, tags=["recipes"]
-)
+@router.get("/recipes/{language}/{ending}", response_model=OutputRecipe)
 def topodic_ending(language: StrictStr, ending: StrictStr):
     """
     Show the recipe for a word-ending.
@@ -96,38 +95,37 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
         )
 
 
-# @router.post(
-#     "/topodict/recipe",
-#     response_model=OutputTopodictLongestEnding,
-#     tags=["topodictionary"],
-# )
-# def topodict_recipe_for_input(inputword: InputWord):
-#     """
-#     Show the recipe that will be used for the input word.
+@router.post("/recipes/recipe", response_model=OutputRecipeLongestEnding)
+def topodict_recipe_for_input(inputword: InputWord):
+    """
+    Show the recipe that will be used for the input word.
 
-#     This will show the recipe that would be used for the
-#     creation of grammatical cases for an input word.
+    This will show the recipe that would be used for the
+    creation of grammatical cases for an input word.
 
-#     And this path operation will:
-#     * return the recipe that would be used for the input word
-#     * return the longest ending that could be found within the topodictionary
-#     """
-#     try:
-#         td = topodict.Topodict(language=inputword.language.lower())
-#         td.load()
+    And this path operation will:
+    * return the recipe that would be used for the input word
+    * return the longest ending that could be found within the topodictionary
+    """
+    try:
+        recipes = Recipes(language=inputword.language.lower())
+        recipes.load()
 
-#         tn = toponym.Toponym(inputword.word, td)
+        return {
+            "language": inputword.language,
+            "word": inputword.word,
+            "longest_ending": get_longest_word_ending(
+                input_word=inputword.word, recipes=recipes
+            ),
+            "recipe": recipes._dict["_default"]
+            if not get_longest_word_ending(input_word=inputword.word, recipes=recipes)
+            else recipes._dict[
+                get_longest_word_ending(input_word=inputword.word, recipes=recipes)
+            ],
+        }
 
-#         return {
-#             "language": inputword.language,
-#             "word": inputword.word,
-#             "longest_ending": tn._get_longest_word_ending(inputword.word),
-#             "recipe": td._dict["_default"]
-#             if not tn._get_longest_word_ending(inputword.word)
-#             else td._dict[tn._get_longest_word_ending(inputword.word)],
-#         }
-
-#     except KeyError:
-#         raise HTTPException(
-#             status_code=404, detail=f"Language: {inputword.language} not found"
-#         )
+    except KeyError:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND,
+            detail=f"Language: {inputword.language} not found",
+        )

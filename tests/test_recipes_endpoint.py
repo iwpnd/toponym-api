@@ -56,30 +56,27 @@ def test_language_ending_route_response_keys(test_app, language):
 def test_language_ending_route_language_404(test_app):
     language = "fails"
     response = test_app.get(API_V1_STR + f"/recipes/{language}/_default")
-    assert response.status_code == 404
+    assert response.status_code == HTTP_404_NOT_FOUND
     assert f"Language: {language} not found" in response.json()["detail"]
 
 
-# def test_language_ending_route_ending_404():
-#     response = client.get(API_V1_STR + f"/topodict/polish/_test")
-#     assert response.status_code == 404
-#     assert "Ending not found" in response.json()["detail"]
+def test_language_ending_route_ending_404(test_app):
+    response = test_app.get(API_V1_STR + f"/recipes/polish/_test")
+    assert response.status_code == HTTP_404_NOT_FOUND
+    assert "Ending not found" in response.json()["detail"]
 
 
-# def test_recipe_route_status():
-#     for language in available_languages:
-#         payload = {"language": language, "word": "test"}
-#         response = client.post(API_V1_STR + f"/topodict/recipe", json=payload)
-#         assert response.status_code == 200
+@pytest.mark.parametrize("language", [language for language in settings.LANGUAGE_DICT])
+def test_recipe_route_status(test_app, language):
+    payload = {"language": language, "word": "test"}
+    response = test_app.post(API_V1_STR + f"/recipes/recipe", json=payload)
+    assert response.status_code == HTTP_200_OK
 
 
-# def test_recipe_route_response():
-#     for language in available_languages:
-#         payload = {"language": language, "word": "test"}
-#         response = client.post(API_V1_STR + f"/topodict/recipe", json=payload)
-#         assert all(
-#             [
-#                 k in response.json()
-#                 for k in ["language", "word", "longest_ending", "recipe"]
-#             ]
-#         )
+@pytest.mark.parametrize("language", [language for language in settings.LANGUAGE_DICT])
+def test_recipe_route_response(test_app, language):
+    payload = {"language": language, "word": "test"}
+    response = test_app.post(API_V1_STR + f"/recipes/recipe", json=payload)
+    assert all(
+        [k in response.json() for k in ["language", "word", "longest_ending", "recipe"]]
+    )
