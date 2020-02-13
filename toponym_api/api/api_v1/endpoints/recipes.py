@@ -43,7 +43,7 @@ def recipes_language(language: StrictStr):
 
 
 @router.get("/recipes/{language}/{ending}", response_model=OutputRecipe)
-def topodic_ending(language: StrictStr, ending: StrictStr):
+def recipes_ending(language: StrictStr, ending: StrictStr):
     """
     Show the recipe for a word-ending.
 
@@ -96,7 +96,7 @@ def topodic_ending(language: StrictStr, ending: StrictStr):
 
 
 @router.post("/recipes/recipe", response_model=OutputRecipeLongestEnding)
-def topodict_recipe_for_input(inputword: InputWord):
+def recipes_recipe_for_input(inputword: InputWord):
     """
     Show the recipe that will be used for the input word.
 
