@@ -21,14 +21,14 @@ router = APIRouter()
 )
 def recipes_language(language: StrictStr):
     """
-    Show topodictionary for language.
+    Show available Recipes for language.
 
-    This will show the topodictionary for the input language to the user.
-    A topodictionary is a collection of recipe on how to construct
+    This will show the Recipes for the input language to the user.
+    It is a collection of recipes on how to construct
     grammatical cases for an input word.
 
     And this path operation will:
-    * return the entire collection of recipes in a topodictionary
+    * return the entire collection of recipes
 
     """
     try:
@@ -51,28 +51,6 @@ def recipes_ending(language: StrictStr, ending: StrictStr):
     the recipe that will be used to build grammatical cases
     for that specific ending.
 
-    e.g.
-        "д": {
-        "nominative": [
-            [""],0
-            ],
-        "genitive": [
-            ["да","дя"],1
-        ],
-        "dative": [
-            ["дю","ду"],1
-        ],
-        "accusative": [
-            ["да","дя"],
-            1
-        ],
-        "instrumental": [
-            ["дем","дом"],1
-        ],
-        "prepositional": [
-            ["де"],1
-        ]
-    }
 
     And this path operation will:
     * returns a single recipe for the ending specific in the path
